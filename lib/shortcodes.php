@@ -120,6 +120,7 @@ function directoryShortcode( $atts, $content = '' ) {
                     <div class="col">
                         <div class="form-group">
                             <label for="book-availability">
+                                <input type="hidden" name="available" value="0">
                                 <input type="checkbox" id="book-availability" name="available" value="1" <?php checked( $selected_availability ); ?>>
                                 <?php _e( 'Show available editions only', 'special-editions' ); ?>
                             </label>
