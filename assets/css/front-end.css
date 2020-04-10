@@ -1,0 +1,14 @@
+#special-editions-reset-filters {
+    display: inline-block;
+    margin-right: .5em;
+}
+
+#special-edition-number-results {
+    margin-bottom: .5em;
+}
+
+@media (min-width: 992px) {
+    #special-edition-number-results {
+        text-align: right;
+    }
+}
