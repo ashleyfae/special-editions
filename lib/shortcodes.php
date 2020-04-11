@@ -109,7 +109,7 @@ function directoryShortcode( $atts, $content = '' ) {
                             <select id="book-attribute" class="form-control" name="attribute">
                                 <option value="" <?php selected( '', $selected_attribute ); ?>><?php _e( 'Any', 'special-editions' ); ?></option>
                                 <?php foreach ( $attributes as $attr ) : ?>
-                                    <option value="<?php echo esc_attr( $attr->get_id() ); ?>" <?php selected( $attr->get_id(), $selected_age ); ?>><?php echo esc_html( $attr->getName() ); ?></option>
+                                    <option value="<?php echo esc_attr( $attr->get_id() ); ?>" <?php selected( $attr->get_id(), $selected_attribute ); ?>><?php echo esc_html( $attr->getName() ); ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
