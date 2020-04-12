@@ -11,6 +11,7 @@ namespace SpecialEditions\Admin;
 
 use Book_Database\Book;
 use SpecialEditions\Editions\Database;
+use SpecialEditions\Editions\Edition;
 use SpecialEditions\Utils\Pages;
 use function Book_Database\user_can_edit_books;
 
@@ -107,6 +108,13 @@ function addEdition() {
 
         \SpecialEditions\Attributes\Database::setAttributes( $edition->get_id(), $attribute_names );
 
+        /**
+         * Triggers when a new edition is added.
+         *
+         * @param Edition $edition
+         */
+        do_action( 'special-editions/edition-added', $edition );
+
         $edit_url = Pages::getAdminPage( array(
             'view'                   => 'edit',
             'edition_id'             => $edition->get_id(),
@@ -143,7 +151,9 @@ function updateEdition() {
             throw new \Exception( __( 'Missing edition ID', 'special-editions' ), 400 );
         }
 
-        Database::update( absint( $_POST['edition_id'] ), array(
+        $edition = Database::retrieve( absint( $_POST['edition_id'] ) );
+
+        Database::update( $edition->get_id(), array(
             'image_id'      => ! empty( $_POST['image_id'] ) ? $_POST['image_id'] : null,
             'price'         => ! empty( $_POST['price'] ) ? $_POST['price'] : null,
             'currency_code' => ! empty( $_POST['currency_code'] ) ? $_POST['currency_code'] : null,
@@ -158,7 +168,14 @@ function updateEdition() {
         $attributes      = ! empty( $_POST['attributes'] ) && is_array( $_POST['attributes'] ) ? stripslashes_deep( $_POST['attributes'] ) : array();
         $attribute_names = array_unique( array_map( 'trim', $attributes ) );
 
-        \SpecialEditions\Attributes\Database::setAttributes( absint( $_POST['edition_id'] ), $attribute_names );
+        \SpecialEditions\Attributes\Database::setAttributes( $edition->get_id(), $attribute_names );
+
+        /**
+         * Triggers when a edition is updated.
+         *
+         * @param Edition $edition
+         */
+        do_action( 'special-editions/edition-updated', $edition );
 
         $edit_url = Pages::getAdminPage( array(
             'view'                   => 'edit',
