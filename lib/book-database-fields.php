@@ -92,7 +92,7 @@ function editionInfo( $value, $field, $book, $layout ) {
             }
 
             $class = 'align' . sanitize_html_class( $alignment );
-            $value = '<img src="' . esc_url( $edition->getImageURL( $size ) ) . '" alt="' . esc_attr( wp_strip_all_tags( $book->get_title() ) ) . '" class="' . esc_attr( $class ) . '">';
+            $value = '<img src="' . esc_url( $edition->getImageURL( $size ) ) . '" alt="' . esc_attr( wp_strip_all_tags( $book->get_title() ) ) . '" class="' . esc_attr( $class . ' special-edition-cover' ) . '">';
         }
 
     } catch ( \Exception $e ) {
