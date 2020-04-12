@@ -51,9 +51,20 @@ class Query {
             "INNER JOIN {$wpdb->bdb_special_editions} AS edition ON( book.id = edition.book_id )"
         );
 
-        // If we have an age or genre condition, join on terms table.
-        if ( $this->args['age'] || $this->args['genre'] ) {
-            $joins[] = "LEFT JOIN {$wpdb->bdb_book_term_relationships} AS btr ON( book.id = btr.book_id )";
+        // If we have an age condition, join on terms table.
+        if ( $this->args['age'] ) {
+            $joins[] = $wpdb->prepare(
+                "INNER JOIN {$wpdb->bdb_book_term_relationships} AS btr1 ON( book.id = btr1.book_id AND btr1.term_id = %d )",
+                absint( $this->args['age'] )
+            );
+        }
+
+        // If we have a genre condition, join on terms table.
+        if ( $this->args['age'] ) {
+            $joins[] = $wpdb->prepare(
+                "INNER JOIN {$wpdb->bdb_book_term_relationships} AS btr2 ON( book.id = btr2.book_id AND btr2.term_id = %d )",
+                absint( $this->args['genre'] )
+            );
         }
 
         // If we have an attribute condition, join on the attribute table.
@@ -71,16 +82,6 @@ class Query {
         // Author search
         if ( ! empty( $this->args['author'] ) ) {
             $where[] = $wpdb->prepare( "author.name LIKE %s", '%' . $wpdb->esc_like( $this->args['author'] ) . '%' );
-        }
-
-        // Age group search
-        if ( ! empty( $this->args['age'] ) ) {
-            $where[] = $wpdb->prepare( "btr.term_id = %d", absint( $this->args['age'] ) );
-        }
-
-        // Genre search
-        if ( ! empty( $this->args['genre'] ) ) {
-            $where[] = $wpdb->prepare( "btr.term_id = %d", absint( $this->args['genre'] ) );
         }
 
         // Attribute search
