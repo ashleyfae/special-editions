@@ -133,7 +133,9 @@ final class Plugin {
             require_once SPECIAL_EDITIONS_ROOT_DIR . 'lib/shortcodes.php';
         }
 
+        require_once SPECIAL_EDITIONS_ROOT_DIR . 'lib/admin-bar.php';
         require_once SPECIAL_EDITIONS_ROOT_DIR . 'lib/book-database-fields.php';
+        require_once SPECIAL_EDITIONS_ROOT_DIR . 'lib/Editions/actions.php';
 
     }
 

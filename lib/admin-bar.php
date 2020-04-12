@@ -1,31 +1,35 @@
 <?php
 /**
- * AdminBar.php
+ * Admin Bar
  *
  * @package   special-editions
  * @copyright Copyright (c) 2020, Ashley Gibson
  * @license   GPL2+
  */
 
-namespace SpecialEditions;
+namespace SpecialEditions\AdminBar;
 
+use SpecialEditions\Utils\Pages;
 
-class AdminBar {
-
+/**
+ * Adds admin bar nodes
+ *
+ * @param \WP_Admin_Bar $wp_admin_bar
+ */
+function addNodes( $wp_admin_bar ) {
     /**
-     * @param \WP_Admin_Bar $wp_admin_bar
+     * Edit Edition
      */
-    public static function addNodes( $wp_admin_bar ) {
-
-        if ( get_query_var( 'edition_id' ) ) {
-            $wp_admin_bar->add_node(array(
-                'id' => 'special_edition',
-                'title' => __('Edit Special Edition', 'special-editions')
-            ));
-        }
-
+    if ( get_query_var( 'special_edition_id' ) ) {
+        $wp_admin_bar->add_node( array(
+            'id'    => 'special_edition',
+            'title' => __( 'Edit Special Edition', 'special-editions' ),
+            'href'  => Pages::getAdminPage( array(
+                'view'       => 'edit',
+                'edition_id' => get_query_var( 'special_edition_id' )
+            ) )
+        ) );
     }
-
 }
 
-add_action( 'admin_bar_menu', 'AdminBar::addNodes' );
+add_action( 'admin_bar_menu', __NAMESPACE__ . '\addNodes', 100 );
