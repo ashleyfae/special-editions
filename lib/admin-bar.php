@@ -10,6 +10,7 @@
 namespace SpecialEditions\AdminBar;
 
 use SpecialEditions\Utils\Pages;
+use function Book_Database\user_can_edit_books;
 
 /**
  * Adds admin bar nodes
@@ -20,7 +21,7 @@ function addNodes( $wp_admin_bar ) {
     /**
      * Edit Edition
      */
-    if ( get_query_var( 'special_edition_id' ) ) {
+    if ( get_query_var( 'special_edition_id' ) && user_can_edit_books() ) {
         $wp_admin_bar->add_node( array(
             'id'    => 'special_edition',
             'title' => __( 'Edit Special Edition', 'special-editions' ),
@@ -29,6 +30,8 @@ function addNodes( $wp_admin_bar ) {
                 'edition_id' => get_query_var( 'special_edition_id' )
             ) )
         ) );
+
+        $wp_admin_bar->remove_node( 'edit' );
     }
 }
 
