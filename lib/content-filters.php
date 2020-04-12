@@ -10,13 +10,48 @@
 namespace SpecialEditions\ContentFilters;
 
 use SpecialEditions\Editions\Database;
-use SpecialEditions\Utils\Currency;
-use function Book_Database\get_book_cover_image_sizes;
-use function Book_Database\get_enabled_book_fields;
 
 if ( ! defined( 'SPECIAL_EDITION_PAGE_ID' ) ) {
     return;
 }
+
+/**
+ * Filters the `<title>` tag value
+ *
+ * @param array $title
+ *
+ * @return array
+ */
+function titleTag( $title ) {
+
+    global $post;
+
+    if ( ! $post instanceof \WP_Post ) {
+        return $title;
+    }
+
+    if ( $post->ID != SPECIAL_EDITION_PAGE_ID ) {
+        return $title;
+    }
+
+    $edition_id = get_query_var( 'special_edition_id' );
+
+    if ( empty( $edition_id ) ) {
+        return $title;
+    }
+
+    try {
+        $edition        = Database::retrieve( absint( $edition_id ) );
+        $book           = \Book_Database\get_book( $edition->getBookID() );
+        $title['title'] = sprintf( __( 'Special Edition: %s by %s', 'special-editions' ), $book->get_title(), $book->get_author_names( true ) );
+    } catch ( \Exception $e ) {
+    }
+
+    return $title;
+
+}
+
+add_filter( 'document_title_parts', __NAMESPACE__ . '\titleTag' );
 
 /**
  * Filters the page title
