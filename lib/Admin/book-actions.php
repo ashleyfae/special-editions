@@ -48,7 +48,7 @@ function renderEditionFields( $book ) {
                             <?php
                             if ( $edition->hasImage() ) {
                                 echo '<a href="' . esc_url( $edit_url ) . '">';
-                                $edition->displayImage( 'large' );
+                                $edition->displayImage( 'thumbnail' );
                                 echo '</a>';
                             } else {
                                 // @todo default image

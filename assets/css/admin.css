@@ -1,0 +1,9 @@
+#bdb-book-special-editions-grid {
+    display: flex;
+    flex-flow: row wrap;
+    text-align: center;
+}
+
+#bdb-book-special-editions-grid .bdb-book-special-edition {
+    margin: 0 1em 1em 0;
+}

@@ -9,6 +9,8 @@
 
 namespace SpecialEditions\Admin;
 
+use function Book_Database\is_admin_page;
+
 /**
  * Registers admin pages
  */
@@ -76,3 +78,19 @@ function render_page() {
     }
 
 }
+
+/**
+ * Registers admin CSS
+ *
+ * @param string $hook
+ */
+function adminAssets( $hook ) {
+
+    if ( is_admin_page() ) {
+        $version = $version = filemtime( SPECIAL_EDITIONS_ROOT_DIR . 'assets/css/admin.css' );
+        wp_enqueue_style( 'special-editions', SPECIAL_EDITIONS_ROOT_URL . 'assets/css/admin.css', array(), $version );
+    }
+
+}
+
+add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\adminAssets' );
